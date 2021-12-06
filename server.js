@@ -43,6 +43,11 @@ function createNote (body, notesArray) {
     );
 }
 
+app.post("/api/notes", (req, res) => {
+    const newNote = createNote(req.body, allNotes);
+    res.json(newNote);
+})
+
 function deletNote(id, notesArray) {
     for(let i=0; i< notesArray.length; i++) {
         let note = notesArray[i];
@@ -59,6 +64,10 @@ function deletNote(id, notesArray) {
     }
 }
 
+app.post("/api/notes/:id", (req, res) => {
+    deletNote(req.params.id, allNotes);
+    res.json(true);
+})
 
 app.listen(PORT, function() {
     console.log("app is live on PORT:" + PORT);

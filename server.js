@@ -24,10 +24,6 @@ app.get("*", (req,res) => {
     res.sendFile(path.join(__dirname, "./public/index.html"))
 });
 
-app.listen(PORT, function() {
-    console.log("app is live on PORT:" + PORT);
-})
-
 function createNote (body, notesArray) {
     const newNote = body;
     if (!Array.isArray(notesArray))
@@ -46,3 +42,24 @@ function createNote (body, notesArray) {
         JSON.stringify(notesArray, null, 2)
     );
 }
+
+function deletNote(id, notesArray) {
+    for(let i=0; i< notesArray.length; i++) {
+        let note = notesArray[i];
+
+        if (note.id == id) {
+            notesArray.splice(i, 1);
+            fs.writeFileSync(
+                path.join(__dirname, "./db/db.json"),
+                JSON.stringify(notesArray, null, 2)
+            );
+
+            break;
+        }
+    }
+}
+
+
+app.listen(PORT, function() {
+    console.log("app is live on PORT:" + PORT);
+})

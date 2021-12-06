@@ -4,12 +4,14 @@ const PORT = process.env.PORT || 3000;
 const path = require("path");
 const app = express();
 
+const noteRecord = require("./db/db.json");
+
 app.use(express.json());
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true}))
 
 app.get("/api/notes", (req,res) => {
-    res.json(allNotes.slice(1));
+    res.json(noteRecord.slice(1));
 });
 
 app.get("/", (req,res) => {
@@ -44,7 +46,7 @@ function createNote (body, notesArray) {
 }
 
 app.post("/api/notes", (req, res) => {
-    const newNote = createNote(req.body, allNotes);
+    const newNote = createNote(req.body, noteRecord);
     res.json(newNote);
 })
 
@@ -65,7 +67,7 @@ function deletNote(id, notesArray) {
 }
 
 app.post("/api/notes/:id", (req, res) => {
-    deletNote(req.params.id, allNotes);
+    deletNote(req.params.id, noteRecord);
     res.json(true);
 })
 
